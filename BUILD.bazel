@@ -1,0 +1,37 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+_public_hdrs = [
+    "include/boost/*.hpp",
+    "include/boost/preprocessor/*.hpp",
+    "include/boost/preprocessor/arithmetic/*.hpp",
+    "include/boost/preprocessor/array/*.hpp",
+    "include/boost/preprocessor/comparison/*.hpp",
+    "include/boost/preprocessor/config/*.hpp",
+    "include/boost/preprocessor/control/*.hpp",
+    "include/boost/preprocessor/debug/*.hpp",
+    "include/boost/preprocessor/detail/*.hpp",
+    "include/boost/preprocessor/facilities/*.hpp",
+    "include/boost/preprocessor/iteration/*.hpp",
+    "include/boost/preprocessor/list/*.hpp",
+    "include/boost/preprocessor/logical/*.hpp",
+    "include/boost/preprocessor/punctuation/*.hpp",
+    "include/boost/preprocessor/repetition/*.hpp",
+    "include/boost/preprocessor/selection/*.hpp",
+    "include/boost/preprocessor/seq/*.hpp",
+    "include/boost/preprocessor/slot/*.hpp",
+    "include/boost/preprocessor/tuple/*.hpp",
+    "include/boost/preprocessor/variadic/*.hpp",
+]
+
+cc_library(
+    name = "preprocessor_internal",
+    hdrs = glob(["include/boost/**/*.hpp"], exclude = _public_hdrs),
+)
+
+cc_library(
+    name = "preprocessor",
+    visibility = ["//visibility:public"],
+    includes = ["include"],
+    hdrs = glob(_public_hdrs),
+    deps = [":preprocessor_internal"],
+)
